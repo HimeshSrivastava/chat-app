@@ -43,3 +43,20 @@ export const sendmessages = async (req, res) => {
         res.status(500).json("Internal server error");
     }
 };
+
+export const getallmessagesofconservation = async(req,res) =>{
+         const {id:usersendId} =req.params;
+         const senderId=req.user._id;
+         const conservation = await Conservation.findOne({
+            participants: {
+                $all: [usersendId, senderId],
+            }
+        }).populate("messages");
+
+    if(!conservation){
+        return res.status(201).json([]);
+    }    
+    
+    const messages=conservation.messages;
+    res.status(201).json(messages);
+}
