@@ -1,9 +1,12 @@
 import express from "express"
-import authRoutes from "./routes/auth.routes.js"
-import messageRoutes from "./routes/message.routes.js"
 import ConnectMongoose from "./db/ConnectMongoose.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv"
+
+import authRoutes from "./routes/auth.routes.js"
+import messageRoutes from "./routes/message.routes.js"
+import userRoutes from "./routes/user.routes.js"
+
 const app=express();
 
 dotenv.config({ path: '../.env' });
@@ -19,6 +22,7 @@ app.use(cookieParser());
 
 app.use("/api/auth",authRoutes);
 app.use("/api/message",messageRoutes);
+app.use("/api/user",userRoutes);
 
 app.listen(PORT,()=>{
     ConnectMongoose();
