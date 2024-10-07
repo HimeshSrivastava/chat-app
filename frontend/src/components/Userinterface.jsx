@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar/Sidebar"
 
 const Userinterface = () => {
   return (
-    <div className="flex ml-72">
+    <div className="flex align-middle justify-center">
          <Sidebar/>
          <MessageContainer/>
     </div>
