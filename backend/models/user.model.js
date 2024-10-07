@@ -19,12 +19,11 @@ const userschema= new mongoose.Schema({
     ConfirmPassword:{
         type: String,
         required: true,
-        unique:true,
     },
     gender:{
         type: String,
         required: true,
-        enum:["male","female"],
+        enum:["Male","Female"],
     },
 },{timestamps:true});
 

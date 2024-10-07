@@ -1,9 +1,12 @@
+import MessageContainer from "./MessageContainer"
+import Sidebar from "./Sidebar/Sidebar"
 
 
 const Userinterface = () => {
   return (
-    <div>
-         
+    <div className="flex ml-72">
+         <Sidebar/>
+         <MessageContainer/>
     </div>
   )
 }

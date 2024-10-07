@@ -2,6 +2,8 @@ import express from "express"
 import ConnectMongoose from "./db/ConnectMongoose.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv"
+import cors from 'cors';
+
 
 import authRoutes from "./routes/auth.routes.js"
 import messageRoutes from "./routes/message.routes.js"
@@ -14,13 +16,14 @@ dotenv.config({ path: '../.env' });
 const PORT= process.env.PORT || 3000;
 console.log("Environment variable PORT:", process.env.PORT);
 
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 // app.get("/",(req,res)=>{
 //     res.send("Hello Everyone");
 // })
 
-app.use("/api/auth",authRoutes);
+app.use("/api/auth", authRoutes); 
 app.use("/api/message",messageRoutes);
 app.use("/api/user",userRoutes);
 
