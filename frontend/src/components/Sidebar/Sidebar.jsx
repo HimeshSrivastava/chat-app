@@ -1,7 +1,35 @@
+
+// import useGetAllUser from "../hooks/useGetAllUser";
+import { useEffect, useState } from "react";
 import LogoutButton from "../LogoutButton";
 import Conversation from "./Conversation";
+import { useAuthContex } from "../contex/AuthContex";
+import axios from "axios";
 
 const Sidebar = () => {
+  const { authUser } = useAuthContex();
+  const [conversation, setConversation] = useState([]);
+
+  useEffect(() => {
+    const getAllUser = async () => {
+      try {
+        const res = await axios.get(`http://localhost:4000/api/user`);
+
+        const result = res.data;
+
+        if (result.error) {
+          throw new Error("Error in conversation");
+        }
+
+        setConversation(result);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getAllUser();
+  }, [authUser]); 
+  console.log(conversation);
   return (
     <div className="flex flex-col w-full max-w-xs h-screen bg-slate-400 p-4 space-y-4">
       {/* Search Bar */}

@@ -21,6 +21,8 @@ const generatewebtoken = (userid, res) => {
         httpOnly:true,
         sameSite:"strict",
       });
+
+      return token;
 };
 
 export default generatewebtoken

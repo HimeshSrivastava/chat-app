@@ -26,7 +26,7 @@ export const signup =async(req,res)=>{
         });
         if(newuser){
             
-            generatewebtoken(newuser._id,res);
+            const token=generatewebtoken(newuser._id,res);
             
             await newuser.save();
             return res.status(200).json({
@@ -35,6 +35,7 @@ export const signup =async(req,res)=>{
                 password:newuser.password,
                 ConfirmPassword:newuser.ConfirmPassword,
                 gender:newuser.gender,
+                token,
             });
         }
         else{
@@ -51,12 +52,13 @@ export const login =async(req,res)=>{
     const ispasswordcorrect=await bcrypt.compare(password,user?.password || "");
 
     if(user && ispasswordcorrect){
-        generatewebtoken(user._id, res);
-
+       const token= generatewebtoken(user._id, res);
+        console.log(token);
             return res.status(200).json({
                 name: user.name,
                 email: user.email,
                 gender: user.gender,
+                token,
             });
     }
     else{
@@ -75,3 +77,4 @@ export const logout =(req,res)=>{
         console.log(error);
     }
 }
+
