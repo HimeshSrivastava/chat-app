@@ -14,7 +14,7 @@ export const AuthContexProvider=({children})=>{
         const user = localStorage.getItem("chat-User");
     
         console.log("Stored data in localStorage (before parsing):", user);
-        return user ? JSON.parse(user) : null; // Default to null if no user data exists
+        return user ? JSON.parse(user) : null; 
       });
     return <AuthContex.Provider value={{authUser,setAuthUser}}>
      {children}

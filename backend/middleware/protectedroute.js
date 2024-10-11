@@ -31,7 +31,9 @@ import User from "../models/user.model.js";
 
 const protectedroute = async (req, res, next) => {
   try {
-    const token = req.cookies.jwt;
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+
+    console.log("token",token)
 
     if (!token) {
       return res.status(401).json("Token not found");
@@ -39,7 +41,9 @@ const protectedroute = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-    const user = await User.findById(decoded._id).select("-password"); 
+    console.log(decoded.userid);
+
+    const user = await User.findById(decoded.userid).select("-password"); 
     if (!user) {
       return res.status(404).json("User not found");
     }

@@ -1,5 +1,3 @@
-
-// import useGetAllUser from "../hooks/useGetAllUser";
 import { useEffect, useState } from "react";
 import LogoutButton from "../LogoutButton";
 import Conversation from "./Conversation";
@@ -8,28 +6,43 @@ import axios from "axios";
 
 const Sidebar = () => {
   const { authUser } = useAuthContex();
-  const [conversation, setConversation] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const getAllUser = async () => {
+    const getAllUsers = async () => {
       try {
-        const res = await axios.get(`http://localhost:4000/api/user`);
+      
+        const user = JSON.parse(localStorage.getItem("chat-User"));
+
+        if (!user || !user.token) {
+          console.error("No token found");
+          return;
+        }
+
+        const token = user.token;
+
+       
+        const res = await axios.get(`http://localhost:4000/api/user`, {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        });
 
         const result = res.data;
 
         if (result.error) {
-          throw new Error("Error in conversation");
+          throw new Error("Error in fetching users");
         }
 
-        setConversation(result);
+        setUsers(result);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching users:", error);
       }
     };
 
-    getAllUser();
-  }, [authUser]); 
-  console.log(conversation);
+    getAllUsers();
+  }, [authUser]);
+
   return (
     <div className="flex flex-col w-full max-w-xs h-screen bg-slate-400 p-4 space-y-4">
       {/* Search Bar */}
@@ -45,12 +58,17 @@ const Sidebar = () => {
         />
       </div>
 
-      {/* Conversation List */}
+     
       <div className="flex-1 overflow-y-auto">
-        <Conversation />
+        {users.length > 0 ? (
+          users.map((user) => (
+            <Conversation key={user._id} name={user.name} user={user} />
+          ))
+        ) : (
+          <p>No users found.</p>
+        )}
       </div>
 
-      {/* Logout Button */}
       <div>
         <LogoutButton />
       </div>
