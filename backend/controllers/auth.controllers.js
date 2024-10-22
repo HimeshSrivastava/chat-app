@@ -53,7 +53,7 @@ export const login =async(req,res)=>{
 
     if(user && ispasswordcorrect){
        const token= generatewebtoken(user._id, res);
-        console.log(token);
+        // console.log(token);
             return res.status(200).json({
                 name: user.name,
                 email: user.email,

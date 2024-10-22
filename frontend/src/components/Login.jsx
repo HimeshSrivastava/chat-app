@@ -18,7 +18,7 @@ const Login = () => {
         }
 
       const result=await axios.post("http://localhost:4000/api/auth/login",loginUser);
-      console.log(result);
+      // console.log(result);
         localStorage.setItem("chat-User",JSON.stringify(result.data));
         setAuthUser(result.data);
 
