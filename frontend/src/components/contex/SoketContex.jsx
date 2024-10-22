@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 
 export const SocketContex = createContext(); // Correct casing
 
-export const SocketContexProvider = ({ children }) => {  // Correct spelling and casing
+export const SocketContexProvider = ({ children }) => {  
     const [socket, setSocket] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState(null);
     const { authUser } = useAuthContex();
