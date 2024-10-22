@@ -3,13 +3,15 @@ import ConnectMongoose from "./db/ConnectMongoose.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import cors from 'cors';
+import path from "path";
+const __dirname=path.resolve();
 
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import { app, server } from "./socket/socket.js"; // Use the same server from soket.js
 
-dotenv.config({ path: '../.env' });
+dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 console.log("Environment variable PORT:", process.env.PORT);
@@ -21,6 +23,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes); 
 app.use("/api/message", messageRoutes);
 app.use("/api/user", userRoutes);
+app.use(express.static(path.join(__dirname,"/frontend/dist")))
 
 server.listen(PORT, () => {
     ConnectMongoose();
