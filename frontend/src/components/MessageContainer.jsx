@@ -31,7 +31,7 @@ const MessageContainer = () => {
       };
 
       const res = await axios.post(
-        `http://localhost:4000/api/message/send/${selectedConversation._id}`, 
+        `https://chat-app-3-0ld9.onrender.com/api/message/send/${selectedConversation._id}`, 
         messageData,
         {
           headers: {
@@ -66,7 +66,7 @@ const MessageContainer = () => {
       const token = user.token;
   
       const messageres = await axios.get(
-        `http://localhost:4000/api/message/${selectedConversation._id}`,
+        `https://chat-app-3-0ld9.onrender.com/api/message/${selectedConversation._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, 

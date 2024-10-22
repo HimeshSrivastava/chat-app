@@ -17,7 +17,7 @@ const Login = () => {
           password:passwordref.current.value,
         }
 
-      const result=await axios.post("http://localhost:4000/api/auth/login",loginUser);
+      const result=await axios.post("https://chat-app-3-0ld9.onrender.com/api/auth/login",loginUser);
       // console.log(result);
         localStorage.setItem("chat-User",JSON.stringify(result.data));
         setAuthUser(result.data);

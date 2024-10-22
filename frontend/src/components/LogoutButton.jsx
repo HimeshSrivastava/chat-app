@@ -7,7 +7,7 @@ const LogoutButton = () => {
       const {setAuthUser}=useAuthContex();
   const logout =async()=>{
     try {
-      const res=await axios.post("http://localhost:4000/api/auth/logout");
+      const res=await axios.post("https://chat-app-3-0ld9.onrender.com/api/auth/logout");
        const result=res.data;
        if(result.error){
         throw new Error(result.error);

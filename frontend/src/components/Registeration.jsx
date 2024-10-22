@@ -23,7 +23,7 @@ const Registeration = () => {
         gender: genderref.current.value,
       };
 
-      const result = await axios.post("http://localhost:4000/api/auth/signup", user); 
+      const result = await axios.post("https://chat-app-3-0ld9.onrender.com/api/auth/signup", user); 
       if (result.data && typeof result.data === 'object') {
         localStorage.setItem("chat-User",JSON.stringify(result.data));
         setAuthUser(result.data);

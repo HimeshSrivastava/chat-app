@@ -3,10 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "scripts": {
-    "server": "nodemon backend/server.js",
-    "build":"npm install"
-  },
+  
   "type": "module",
   "author": "Himesh Srivastava",
   "license": "ISC",
