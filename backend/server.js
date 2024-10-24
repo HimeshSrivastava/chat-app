@@ -15,9 +15,13 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 console.log("Environment variable PORT:", process.env.PORT);
-
-app.use(cors());
-app.use(express.json());
+const corsOptions = {
+    origin: 'https://chat-app-deployed-9vyb.onrender.com', // Replace with your frontend URL
+    methods: ['GET', 'POST'],
+    credentials: true
+  };
+  
+  app.use(cors(corsOptions));app.use(express.json());
 app.use(cookieParser());
 
 app.use('/',(req,res)=>{
