@@ -1,1 +1,1 @@
-export const FRONTEND_URL="https://chat-app-23-gyqk.onrender.com"
+export const FRONTEND_URL="http://localhost:3000/"
