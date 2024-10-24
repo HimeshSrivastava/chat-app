@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useAuthContex } from "./contex/AuthContex";
+import { FRONTEND_URL } from "./constant/Api";
 
 
 
@@ -7,7 +8,8 @@ const LogoutButton = () => {
       const {setAuthUser}=useAuthContex();
   const logout =async()=>{
     try {
-      const res=await axios.post("https://chat-app-3-0ld9.onrender.com/api/auth/logout");
+      // eslint-disable-next-line no-undef
+      const res=await axios.post(`${FRONTEND_URL}/api/auth/logout`);
        const result=res.data;
        if(result.error){
         throw new Error(result.error);

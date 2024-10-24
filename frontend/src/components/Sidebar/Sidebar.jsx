@@ -4,6 +4,7 @@ import { useAuthContex } from "../contex/AuthContex";
 import axios from "axios";
 import SidebarUsers from "./SidebarUsers";
 import useConversation from "../zustand/useConversation";
+import { FRONTEND_URL } from "../constant/Api";
 
 const Sidebar = () => {
   const { authUser } = useAuthContex();
@@ -25,7 +26,8 @@ const Sidebar = () => {
 
         const token = user.token;
 
-        const res = await axios.get(`http://localhost:4000/api/user`, {
+        // eslint-disable-next-line no-undef
+        const res = await axios.get(`${FRONTEND_URL}/api/user`, {
           headers: {
             Authorization: `Bearer ${token}`, 
           },

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useRef } from "react"
 import { Link } from "react-router-dom";
 import { useAuthContex } from "./contex/AuthContex";
+import { FRONTEND_URL } from "./constant/Api";
 
 
 const Registeration = () => {
@@ -23,7 +24,8 @@ const Registeration = () => {
         gender: genderref.current.value,
       };
 
-      const result = await axios.post("https://chat-app-3-0ld9.onrender.com/api/auth/signup", user); 
+      // eslint-disable-next-line no-undef
+      const result = await axios.post(`${FRONTEND_URL}/api/auth/signup`, user); 
       if (result.data && typeof result.data === 'object') {
         localStorage.setItem("chat-User",JSON.stringify(result.data));
         setAuthUser(result.data);
