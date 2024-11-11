@@ -1,11 +1,12 @@
+/* eslint-disable react/prop-types */
 import useConversation from "../zustand/useConversation"
 
 
-// eslint-disable-next-line react/prop-types
+
 const SidebarUsers = ({name,user}) => {
   const {selectedConversation,setSelectedConversation}=useConversation();
 
-  // eslint-disable-next-line react/prop-types
+  
   const isSelected = selectedConversation?._id === user?._id;
   // console.log(user);
   return (

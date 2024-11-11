@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useAuthContex } from "./contex/AuthContex";
-import { FRONTEND_URL } from "./constant/Api";
+// import { BACKEND_URL } from "./constant/Api";
 
 
 
@@ -8,18 +8,17 @@ const LogoutButton = () => {
       const {setAuthUser}=useAuthContex();
   const logout =async()=>{
     try {
-      // eslint-disable-next-line no-undef
-      const res=await axios.post(`${FRONTEND_URL}/api/auth/logout`);
-       const result=res.data;
-       if(result.error){
-        throw new Error(result.error);
-       }
-       localStorage.removeItem("chat-User");
-       setAuthUser(null);
+			const res = await axios.post('/api/auth/logout');
+			
+			if (res.data.error) {
+				throw new Error(res.data.error);
+			}
 
-    } catch (error) {
-      console.error("Error during logout:",error);
-    }
+			localStorage.removeItem("chat-User");
+			setAuthUser(null);
+		} catch (error) {
+			console.log(error.message);
+		} 
   }
    
   return (

@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useRef } from "react"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthContex } from "./contex/AuthContex";
-import { FRONTEND_URL } from "./constant/Api";
 
 
 const Registeration = () => {
@@ -14,7 +13,9 @@ const Registeration = () => {
 
   const {setAuthUser}=useAuthContex();
   
+  
   const handlebackend = async () => {
+
     try {
       const user = {
         name: nameref.current.value,
@@ -24,19 +25,15 @@ const Registeration = () => {
         gender: genderref.current.value,
       };
 
-      // eslint-disable-next-line no-undef
-      const result = await axios.post(`${FRONTEND_URL}/api/auth/signup`, user); 
-      if (result.data && typeof result.data === 'object') {
-        localStorage.setItem("chat-User",JSON.stringify(result.data));
-        setAuthUser(result.data);
-      } else {
-        console.error("Unexpected data format received from server");
-      }
-  
-    }
-     catch (error) {
+      const result = await axios.post(`/api/auth/signup`, user); 
+   
+          localStorage.setItem("chat-User", JSON.stringify(result.data));
+          setAuthUser(result.data);
+          console.log(result.data);
+     
+  } catch (error) {
       console.error("Error during signup:", error.response?.data || error.message);
-    }
+  }
   };
   return (
     <div>

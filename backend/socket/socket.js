@@ -1,4 +1,4 @@
-import { Server } from 'socket.io'; // Correct import
+import { Server } from 'socket.io'; 
 import http from 'http'; 
 import express from 'express';
 
@@ -6,7 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: ["https://chat-app-deployed-9vyb.onrender.com/"],
+        origin: ["http://localhost:5173", "https://your-frontend-domain.com"], // Include your frontend domain
         methods: ["GET", "POST"],
     },
 });
@@ -21,7 +21,7 @@ io.on('connection', (socket) => {
     const userId = socket.handshake.query.userId;
 
     if (userId && userId !== "undefined") {
-        userSocketMap[userId] = socket.id; // Update map when user connects
+        userSocketMap[userId] = socket.id; 
     }
 
 

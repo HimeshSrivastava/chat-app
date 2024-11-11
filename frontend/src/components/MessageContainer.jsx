@@ -5,7 +5,7 @@ import { useAuthContex } from "./contex/AuthContex";
 import useListenMessages from "./hooks/useListenMessages";
 import { useContext } from "react";
 import { SocketContex } from "./contex/SoketContex";
-import { FRONTEND_URL } from "./constant/Api";
+import { BACKEND_URL } from "./constant/Api";
 
 const MessageContainer = () => {
   const { selectedConversation, setSelectedConversation, messages, setMessages } = useConversation();
@@ -31,9 +31,7 @@ const MessageContainer = () => {
         message: messageRef.current.value,
       };
 
-      const res = await axios.post(
-        // eslint-disable-next-line no-undef
-        `${FRONTEND_URL}/api/message/send/${selectedConversation._id}`, 
+      const res = await axios.post(`/api/message/send/${selectedConversation._id}`, 
         messageData,
         {
           headers: {
@@ -67,9 +65,7 @@ const MessageContainer = () => {
   
       const token = user.token;
   
-      const messageres = await axios.get(
-        // eslint-disable-next-line no-undef
-        `${FRONTEND_URL}/api/message/${selectedConversation._id}`,
+      const messageres = await axios.get(`/api/message/${selectedConversation._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, 

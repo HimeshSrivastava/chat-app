@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { useAuthContex } from "./AuthContex";
 import { io } from "socket.io-client";
-import { FRONTEND_URL } from "../constant/Api";
+import { BACKEND_URL } from "../constant/Api";
 
 
 export const SocketContex = createContext(); // Correct casing
@@ -13,11 +13,11 @@ export const SocketContexProvider = ({ children }) => {
 
     useEffect(() => {
         if (authUser) {
-            const socketInstance = io(`${FRONTEND_URL}`,{
+            const socketInstance = io('/socket.io', {
                 query: {
-                    userId:authUser._id,
-                }
-            }); 
+                    userId: authUser._id,
+                },
+            });
             setSocket(socketInstance);
             socketInstance.on(("getOnlineUsers"),(users)=>{
                  setOnlineUsers(users);

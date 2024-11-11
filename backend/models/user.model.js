@@ -18,7 +18,6 @@ const userschema= new mongoose.Schema({
     },
     ConfirmPassword:{
         type: String,
-        required: true,
     },
     gender:{
         type: String,

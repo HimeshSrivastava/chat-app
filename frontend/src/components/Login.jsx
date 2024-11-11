@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRef } from "react"
 import { Link } from "react-router-dom"
 import { useAuthContex } from "./contex/AuthContex";
-import { FRONTEND_URL } from "./constant/Api";
+import { BACKEND_URL } from "./constant/Api";
 
 
 
@@ -19,10 +19,11 @@ const Login = () => {
           password:passwordref.current.value,
         }
 
-      // eslint-disable-next-line no-undef
-      const result=await axios.post(`${FRONTEND_URL}/api/auth/login`,loginUser);
+
+      const result=await axios.post('/api/auth/login',loginUser);
       // console.log(result);
         localStorage.setItem("chat-User",JSON.stringify(result.data));
+        
         setAuthUser(result.data);
 
     } catch (error) {
