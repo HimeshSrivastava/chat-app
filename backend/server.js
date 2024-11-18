@@ -44,6 +44,8 @@ import dotenv from "dotenv";
 import cors from 'cors';
 import path from "path";
 
+app.use(cors({ origin: 'https://chat-app-frontend-new.onrender.com' }));
+
 const __dirname = path.resolve();
 
 import authRoutes from "./routes/auth.routes.js";
