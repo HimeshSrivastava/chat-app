@@ -31,7 +31,7 @@ const MessageContainer = () => {
         message: messageRef.current.value,
       };
 
-      const res = await axios.post(`/api/message/send/${selectedConversation._id}`, 
+      const res = await axios.post(`${BACKEND_URL}/api/message/send/${selectedConversation._id}`, 
         messageData,
         {
           headers: {
@@ -65,7 +65,7 @@ const MessageContainer = () => {
   
       const token = user.token;
   
-      const messageres = await axios.get(`/api/message/${selectedConversation._id}`,
+      const messageres = await axios.get(`${BACKEND_URL}/api/message/${selectedConversation._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, 

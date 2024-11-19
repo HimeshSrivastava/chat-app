@@ -2,6 +2,7 @@ import axios from "axios";
 import { useRef } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContex } from "./contex/AuthContex";
+import { BACKEND_URL } from "./constant/Api";
 
 
 const Registeration = () => {
@@ -25,7 +26,7 @@ const Registeration = () => {
         gender: genderref.current.value,
       };
 
-      const result = await axios.post(`/api/auth/signup`, user); 
+      const result = await axios.post(`${BACKEND_URL}/api/auth/signup`, user); 
    
           localStorage.setItem("chat-User", JSON.stringify(result.data));
           setAuthUser(result.data);

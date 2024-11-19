@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useAuthContex } from "./contex/AuthContex";
+import { BACKEND_URL } from "./constant/Api";
 // import { BACKEND_URL } from "./constant/Api";
 
 
@@ -8,7 +9,7 @@ const LogoutButton = () => {
       const {setAuthUser}=useAuthContex();
   const logout =async()=>{
     try {
-			const res = await axios.post('/api/auth/logout');
+			const res = await axios.post(`${BACKEND_URL}/api/auth/logout`);
 			
 			if (res.data.error) {
 				throw new Error(res.data.error);

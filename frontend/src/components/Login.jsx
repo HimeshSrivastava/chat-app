@@ -20,7 +20,7 @@ const Login = () => {
         }
 
 
-      const result=await axios.post('/api/auth/login',loginUser);
+      const result=await axios.post(`${BACKEND_URL}/api/auth/login`,loginUser);
       // console.log(result);
         localStorage.setItem("chat-User",JSON.stringify(result.data));
         

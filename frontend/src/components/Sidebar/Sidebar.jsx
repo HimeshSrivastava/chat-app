@@ -187,7 +187,7 @@ const Sidebar = () => {
         const token = user.token;
 
         // Use the relative path '/api/user' since the proxy is set up
-        const result = await req(null, '/api/user', "GET", token);
+        const result = await req(null, `${BACKEND_URL}/api/user`, "GET", token);
 
         console.log(result);
 

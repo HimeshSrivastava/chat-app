@@ -7,10 +7,10 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://chat-app-ne.onrender.com', 
+        target: 'https://chat-app-ne.onrender.com',
         changeOrigin: true,
-        secure: false,
-      },
+        secure: true,
+    },
       // Proxy WebSocket requests for socket.io
       '/socket.io': {
         target: 'https://chat-app-ne.onrender.com', 
