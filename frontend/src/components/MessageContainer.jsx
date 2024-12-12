@@ -83,7 +83,35 @@ const MessageContainer = () => {
     }
   };
 
- 
+  const deleteMessage = async (messageId) => {
+    try {
+      const user = JSON.parse(localStorage.getItem("chat-User"));
+  
+      if (!user || !user.token) {
+        console.error("No token found");
+        return;
+      }
+  
+      const token = user.token;
+  
+      await axios.delete(`${BACKEND_URL}/api/message/delete/${messageId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      // Remove the message locally
+      setGetMessage((prevMessages) =>
+        prevMessages.filter((msg) => msg._id !== messageId)
+      );
+      setMessages((prevMessages) =>
+        prevMessages.filter((msg) => msg._id !== messageId)
+      );
+    } catch (error) {
+      console.error("Error deleting message:", error);
+    }
+  };
+  
   
 
   useEffect(() => {
@@ -110,6 +138,12 @@ const MessageContainer = () => {
                   } rounded-lg`}
                 >
                   {msg?.message}
+                   <button
+               onClick={() => deleteMessage(msg._id)}
+               className="absolute top-0 right-0 p-1 text-xs text-red-500"
+                 >
+              Delete
+               </button>
                 </div>
               ))
             ) : (

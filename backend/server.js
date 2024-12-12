@@ -52,12 +52,12 @@ const allowedOrigins = [
   app.use(cors({
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true); // Allow request
+        callback(null, true); 
       } else {
-        callback(new Error('Not allowed by CORS')); // Block request
+        callback(new Error('Not allowed by CORS')); 
       }
     },
-    credentials: true, // If you need cookies/auth headers
+    credentials: true, 
   }));
   
 
