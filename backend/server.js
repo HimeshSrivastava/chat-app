@@ -44,7 +44,22 @@ import dotenv from "dotenv";
 import cors from 'cors';
 import path from "path";
 
-app.use(cors({ origin: 'https://chat-app-frontend-new.onrender.com' }));
+const allowedOrigins = [
+    'https://chat-app-frontend-new.onrender.com',
+    'http://localhost:5173'
+  ];
+  
+  app.use(cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true); // Allow request
+      } else {
+        callback(new Error('Not allowed by CORS')); // Block request
+      }
+    },
+    credentials: true, // If you need cookies/auth headers
+  }));
+  
 
 const __dirname = path.resolve();
 
