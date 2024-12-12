@@ -93,20 +93,23 @@ const MessageContainer = () => {
       }
   
       const token = user.token;
+
+      const formattedMessageId = messageId.toString();;
+
   
-      await axios.delete(`${BACKEND_URL}/api/message/delete/${messageId}`, {
+      await axios.delete(`${BACKEND_URL}/api/message/delete/${formattedMessageId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+
+
   
       // Remove the message locally
       setGetMessage((prevMessages) =>
         prevMessages.filter((msg) => msg._id !== messageId)
       );
-      setMessages((prevMessages) =>
-        prevMessages.filter((msg) => msg._id !== messageId)
-      );
+     
     } catch (error) {
       console.error("Error deleting message:", error);
     }
@@ -135,12 +138,12 @@ const MessageContainer = () => {
                   key={msg._id}
                   className={`self-${msg.senderId === 'you' ? 'end' : 'start'} max-w-xs px-4 py-2 ${
                     msg.senderId === 'you' ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                  } rounded-lg`}
+                  } rounded-lg flex justify-between`}
                 >
                   {msg?.message}
                    <button
                onClick={() => deleteMessage(msg._id)}
-               className="absolute top-0 right-0 p-1 text-xs text-red-500"
+               className=" text-red-500"
                  >
               Delete
                </button>

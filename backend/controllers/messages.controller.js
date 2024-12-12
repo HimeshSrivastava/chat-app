@@ -1,6 +1,7 @@
 import Message from "../models/message.model.js";
 import Conservation from "../models/conservation.model.js";
 import { getReceiverSocketId } from "../socket/socket.js";
+import { Types } from 'mongoose';
 
 export const sendmessages = async (req, res) => {
     try {
@@ -69,5 +70,23 @@ export const getallmessagesofconservation = async(req,res) =>{
     } catch (error) {
         console.error("Error in Gettingmessages:", error);
         res.status(500).json("Internal server error");
+    }
+}
+
+export const deletemessage =async(req,res)=>{
+    try {
+        const {id} =req.params;
+        const messageId = Types.ObjectId(id);
+        const deletedMessage = await Message.findByIdAndDelete(messageId);
+
+        if (!deletedMessage) {
+          return res.status(404).json({ success: false, message: "Message not found" });
+        }
+    
+        res.status(200).json({ success: true, message: "Message deleted successfully" });
+    } catch (error) {
+            console.error("Error deleting message:", error);
+            res.status(500).json({ success: false, message: "Internal server error" });
+          
     }
 }
