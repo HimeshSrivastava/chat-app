@@ -77,7 +77,7 @@ export const deletemessage =async(req,res)=>{
     try {
         const {id} =req.params;
         const messageId = Types.ObjectId(id);
-        const deletedMessage = await Message.findByIdAndDelete(messageId);
+        const deletedMessage = await Message.findOneAndDelete({ _id: messageId });
 
         if (!deletedMessage) {
           return res.status(404).json({ success: false, message: "Message not found" });
