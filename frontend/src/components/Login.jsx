@@ -21,13 +21,16 @@ const Login = () => {
 
 
       const result=await axios.post(`${BACKEND_URL}/api/auth/login`,loginUser);
-      // console.log(result);
+      if(result.status===200 && result.data ){
         localStorage.setItem("chat-User",JSON.stringify(result.data));
-        
         setAuthUser(result.data);
+      }
+      else{
+        alert("wrong data");
+      }
 
     } catch (error) {
-      console.log(error);
+     alert(error);
     }
   }
 

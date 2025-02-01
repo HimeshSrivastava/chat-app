@@ -76,7 +76,8 @@ export const getallmessagesofconservation = async(req,res) =>{
 export const deletemessage =async(req,res)=>{
     try {
         const {id} =req.params;
-        const messageId = Types.ObjectId(id);
+        console.log(id);
+        const messageId = new Types.ObjectId(id);
         const deletedMessage = await Message.findOneAndDelete({ _id: messageId });
 
         if (!deletedMessage) {

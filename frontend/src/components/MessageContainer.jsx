@@ -86,16 +86,17 @@ const MessageContainer = () => {
   const deleteMessage = async (messageId) => {
     try {
       const user = JSON.parse(localStorage.getItem("chat-User"));
-  
+
       if (!user || !user.token) {
-        console.error("No token found");
+        console.error("No token found in localStorage");
         return;
       }
-  
+      
       const token = user.token;
+      console.log(token);
 
-      const formattedMessageId = messageId.toString();;
-
+      const formattedMessageId = messageId.toString();
+      console.log(formattedMessageId);
   
       await axios.delete(`${BACKEND_URL}/api/message/delete/${formattedMessageId}`, {
         headers: {
@@ -105,7 +106,7 @@ const MessageContainer = () => {
 
 
   
-      // Remove the message locally
+      
       setGetMessage((prevMessages) =>
         prevMessages.filter((msg) => msg._id !== messageId)
       );
