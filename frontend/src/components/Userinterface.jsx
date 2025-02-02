@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar/Sidebar"
 
 const Userinterface = () => {
   return (
-    <div className="flex align-middle justify-center">
+    <div className="flex flex-col align-middle justify-center md:flex-row">
          <Sidebar/>
          <MessageContainer/>
     </div>
@@ -12,3 +12,4 @@ const Userinterface = () => {
 }
 
 export default Userinterface
+
