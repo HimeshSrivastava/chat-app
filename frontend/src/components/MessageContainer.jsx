@@ -101,7 +101,8 @@ const MessageContainer = () => {
       await axios.delete(`${BACKEND_URL}/api/message/delete/${formattedMessageId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
-        },
+          "Content-Type": "application/json"
+        }
       });
 
 
