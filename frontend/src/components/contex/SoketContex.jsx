@@ -1,40 +1,65 @@
-import { createContext, useEffect, useState } from "react";
-import { useAuthContex } from "./AuthContex";
+// import { createContext, useEffect, useState } from "react";
+// import { useAuthContex } from "./AuthContex";
+// import { io } from "socket.io-client";
+// import { BACKEND_URL } from "../constant/Api";
+
+
+// export const SocketContex = createContext(); // Correct casing
+
+// export const SocketContexProvider = ({ children }) => {  
+//     const [socket, setSocket] = useState(null);
+//     const [onlineUsers, setOnlineUsers] = useState(null);
+//     const { authUser } = useAuthContex();
+
+//     useEffect(() => {
+//         if (authUser) {
+//             const socketInstance = io('/socket.io', {
+//                 query: {
+//                     userId: authUser._id,
+//                 },
+//             });
+//             setSocket(socketInstance);
+//             socketInstance.on(("getOnlineUsers"),(users)=>{
+//                  setOnlineUsers(users);
+//             })
+
+//             return () => socketInstance.close(); // Cleanup on unmount
+//         } else {
+//             if (socket) {
+//                 socket.close();
+//                 setSocket(null);
+//             }
+//         }
+//     }, [authUser]);
+
+//     return (
+//         <SocketContex.Provider value={{ socket, onlineUsers }}>
+//             {children}
+//         </SocketContex.Provider>
+//     );
+// };                    
+
+import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { BACKEND_URL } from "../constant/Api";
 
+const SocketContext = createContext();
 
-export const SocketContex = createContext(); // Correct casing
+export const SocketContextProvider = ({ children }) => {
+  const [socket, setSocket] = useState(null);
 
-export const SocketContexProvider = ({ children }) => {  
-    const [socket, setSocket] = useState(null);
-    const [onlineUsers, setOnlineUsers] = useState(null);
-    const { authUser } = useAuthContex();
+  useEffect(() => {
+    const newSocket = io(BACKEND_URL);
+    setSocket(newSocket);
 
-    useEffect(() => {
-        if (authUser) {
-            const socketInstance = io('/socket.io', {
-                query: {
-                    userId: authUser._id,
-                },
-            });
-            setSocket(socketInstance);
-            socketInstance.on(("getOnlineUsers"),(users)=>{
-                 setOnlineUsers(users);
-            })
+    return () => newSocket.disconnect();
+  }, []);
 
-            return () => socketInstance.close(); // Cleanup on unmount
-        } else {
-            if (socket) {
-                socket.close();
-                setSocket(null);
-            }
-        }
-    }, [authUser]);
+  return (
+    <SocketContext.Provider value={{ socket }}>
+      {children}
+    </SocketContext.Provider>
+  );
+};
 
-    return (
-        <SocketContex.Provider value={{ socket, onlineUsers }}>
-            {children}
-        </SocketContex.Provider>
-    );
-};                    
+export const useSocket = () => useContext(SocketContext);

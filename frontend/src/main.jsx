@@ -4,7 +4,8 @@ import App from './App.jsx'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthContexProvider } from './components/contex/AuthContex.jsx'
-import { SocketContexProvider } from './components/contex/SoketContex.jsx'
+import { SocketContextProvider } from './components/contex/SoketContex.jsx'
+
 
 
 
@@ -12,9 +13,9 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
     <AuthContexProvider>
-    <SocketContexProvider>
+    <SocketContextProvider>
     <App />
-    </SocketContexProvider>
+    </SocketContextProvider>
     </AuthContexProvider>
     </BrowserRouter>
   </StrictMode>,
