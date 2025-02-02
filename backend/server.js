@@ -5,6 +5,12 @@ import dotenv from "dotenv";
 import cors from 'cors';
 import path from "path";
 
+
+const allowedOrigins=[
+  'https://chat-app-ne.onrender.com/api/auth/logout',
+   'http://localhost:5173'
+]
+
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -14,14 +20,14 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // ✅ Allows cookies & headers like Authorization
-    methods: ["GET", "POST", "PUT", "DELETE"], // ✅ Restrict allowed methods
-    allowedHeaders: ["Authorization", "Content-Type"], // ✅ Allow specific headers
+    credentials: true, 
+    methods: ["GET", "POST", "PUT", "DELETE"], 
+    allowedHeaders: ["Authorization", "Content-Type"],
   })
 );
 
-app.use(express.json()); // ✅ Parses JSON request bodies
-app.use(express.urlencoded({ extended: true })); // ✅ Parses URL-encoded bodies
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 
 const __dirname = path.resolve();
 
