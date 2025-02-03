@@ -8,7 +8,10 @@ export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io(BACKEND_URL);
+    const newSocket = io(BACKEND_URL, {
+      transports: ["websocket"], // ✅ Avoids polling issues
+      withCredentials: true, // ✅ Enables cross-origin requests
+    });
     setSocket(newSocket);
 
     return () => newSocket.disconnect();
