@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import cors from "cors";
 import path from "path";
-import { app, server } from "./socket/socket.js"; // Importing app & server from socket.js
+import { app, server } from "./socket/socket.js"; 
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ const allowedOrigins = [
   "http://localhost:5174",
 ];
 
-// Middleware
+
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -36,7 +36,7 @@ app.use(cookieParser());
 
 const __dirname = path.resolve();
 
-// Routes
+
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import userRoutes from "./routes/user.routes.js";
@@ -45,10 +45,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/user", userRoutes);
 
-// Serve frontend
+
 app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-// Start Server (Use `server.listen()` instead of `app.listen()`)
+
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   ConnectMongoose();
