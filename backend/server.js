@@ -10,6 +10,7 @@ dotenv.config();
 
 const allowedOrigins = [
   "https://chat-app-ne.onrender.com",
+  "http://localhost:5173",
   "http://localhost:5174",
 ];
 
