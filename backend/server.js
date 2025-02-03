@@ -9,7 +9,7 @@ import { app, server } from "./socket/socket.js";
 dotenv.config();
 
 const allowedOrigins = [
-  "https://chat-app-ne.onrender.com",
+  "https://chat-app-frontend-new.onrender.com",
   "http://localhost:5173",
   "http://localhost:5174",
 ];
