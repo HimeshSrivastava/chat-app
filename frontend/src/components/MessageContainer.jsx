@@ -4,15 +4,17 @@ import axios from "axios";
 import { useAuthContex } from "./contex/AuthContex";
 import { BACKEND_URL } from "./constant/Api";
 import { useSocket } from "./contex/SoketContex";
+import { TextField, Button, Box, Typography, Paper, IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SendIcon from "@mui/icons-material/Send";
 
 const MessageContainer = () => {
   const { socket } = useSocket();
   const { selectedConversation, setSelectedConversation, messages, setMessages } = useConversation();
   const messageRef = useRef(null);
-  const { authUser } = useAuthContex(); // Get logged-in user
+  const { authUser } = useAuthContex(); 
   const [getMessage, setGetMessage] = useState([]);
 
-  // ✅ Join and leave room on conversation change
   useEffect(() => {
     if (!socket || !selectedConversation) return;
 
@@ -23,7 +25,6 @@ const MessageContainer = () => {
     };
   }, [socket, selectedConversation]);
 
-  // ✅ Listen for real-time incoming messages
   useEffect(() => {
     if (!socket) return;
 
@@ -38,7 +39,6 @@ const MessageContainer = () => {
     };
   }, [socket]);
 
-  // ✅ Fetch messages when a conversation is selected
   useEffect(() => {
     const getMessages = async () => {
       try {
@@ -51,15 +51,15 @@ const MessageContainer = () => {
         });
 
         setGetMessage(res.data);
+        setMessages(res.data); 
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
     };
 
     getMessages();
-  }, [selectedConversation]);
+  }, [selectedConversation, messages]);
 
-  // ✅ Send a message (Socket.IO + API)
   const sendMessage = async () => {
     try {
       if (!selectedConversation || !messageRef.current.value) return;
@@ -73,14 +73,13 @@ const MessageContainer = () => {
         message: messageRef.current.value,
       };
 
-      // ✅ Send message to backend first
       const res = await axios.post(`${BACKEND_URL}/api/message/send/${selectedConversation._id}`, messageData, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
 
       if (res.data) {
-        setMessages((prev) => [...prev, res.data]); // Update local messages
-        socket.emit("sendMessage", res.data); // Send message via Socket.IO
+        setMessages((prev) => [...prev, res.data]); 
+        socket.emit("sendMessage", res.data); 
       }
 
       messageRef.current.value = "";
@@ -89,7 +88,6 @@ const MessageContainer = () => {
     }
   };
 
-  // ✅ Delete a message
   const deleteMessage = async (messageId) => {
     try {
       const user = JSON.parse(localStorage.getItem("chat-User"));
@@ -105,53 +103,65 @@ const MessageContainer = () => {
     }
   };
 
-  // ✅ Clean up selected conversation when component unmounts
   useEffect(() => {
     return () => setSelectedConversation(null);
   }, [setSelectedConversation]);
 
   return (
-    <div className="flex flex-col max-w-full h-screen p-4 bg-gray-100 space-y-4">
+    <Box className="flex flex-col max-w-full h-screen p-4 bg-gray-100 space-y-4">
       {!selectedConversation ? (
         <NotSelected />
       ) : (
         <>
-          {/* ✅ Message List */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-white rounded-lg shadow-lg max-h-screen sm:text-sm">
+          <Paper elevation={3} className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 rounded-lg shadow-lg max-h-screen sm:text-sm">
             {getMessage.length > 0 ? (
               getMessage.map((msg) => (
-                <div
+                <Box
                   key={msg._id}
-                  className={`self-${msg.senderId === authUser._id ? "end" : "start"} max-w-xs px-4 py-2 ${
-                    msg.senderId === authUser._id ? "bg-blue-500 text-white" : "bg-gray-200"
-                  } rounded-lg flex justify-between`}
+                  className={`self-${msg.senderId === authUser._id ? "end" : "start"} max-w-xs px-4 py-2`}
+                  sx={{
+                    backgroundColor: msg.senderId === authUser._id ? "#1976d2" : "#e0e0e0",
+                    color: msg.senderId === authUser._id ? "#fff" : "#000",
+                    borderRadius: 2,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
-                  {msg?.message}
-                  <button onClick={() => deleteMessage(msg._id)} className="text-red-500">
-                    Delete
-                  </button>
-                </div>
+                  <Typography>{msg?.message}</Typography>
+                  <IconButton
+                    onClick={() => deleteMessage(msg._id)}
+                    sx={{ color: msg.senderId === authUser._id ? "#ff5252" : "#d32f2f" }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
               ))
             ) : (
-              <p>No messages yet</p>
+              <Typography>No messages yet</Typography>
             )}
-          </div>
+          </Paper>
 
-          {/* ✅ Message Input */}
-          <div className="mt-4 flex items-center">
-            <input
-              ref={messageRef}
-              type="text"
+          <Box className="mt-4 flex items-center" sx={{ gap: 2 }}>
+            <TextField
+              inputRef={messageRef}
               placeholder="Type a message..."
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              variant="outlined"
+              fullWidth
+              sx={{ backgroundColor: "#ffffff", borderRadius: 2 }}
             />
-            <button onClick={sendMessage} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+            <Button
+              onClick={sendMessage}
+              variant="contained"
+              endIcon={<SendIcon />}
+              sx={{ backgroundColor: "#1976d2", ":hover": { backgroundColor: "#1565c0" } }}
+            >
               Send
-            </button>
-          </div>
+            </Button>
+          </Box>
         </>
       )}
-    </div>
+    </Box>
   );
 };
 
@@ -160,8 +170,11 @@ export default MessageContainer;
 const NotSelected = () => {
   const { authUser } = useAuthContex();
   return (
-    <div className="flex flex-col w-full max-w-xs h-screen bg-slate-300 p-4 space-y-4 items-center justify-center">
-      <p className="font-bold text-xl">{`Welcome ${authUser?.name}`}</p>
-    </div>
+    <Box
+      className="flex flex-col w-full max-w-xs h-screen p-4 space-y-4 items-center justify-center"
+      sx={{ backgroundColor: "#f5f5f5", color: "#000" }}
+    >
+      <Typography variant="h5" fontWeight="bold">{`Welcome ${authUser?.name}`}</Typography>
+    </Box>
   );
 };

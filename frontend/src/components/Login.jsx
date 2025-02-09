@@ -1,65 +1,89 @@
 import axios from "axios";
-import { useRef } from "react"
-import { Link } from "react-router-dom"
+import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { useAuthContex } from "./contex/AuthContex";
 import { BACKEND_URL } from "./constant/Api";
 
-
-
 const Login = () => {
+  const { setAuthUser } = useAuthContex();
+  const emailref = useRef(null);
+  const passwordref = useRef(null);
 
-  const {setAuthUser}=useAuthContex();
-  const emailref=useRef(null);
-  const passwordref=useRef(null);
-
-  const handleLoginbackend =async ()=>{
+  const handleLoginbackend = async () => {
     try {
-        const loginUser ={
-          email:emailref.current.value,
-          password:passwordref.current.value,
-        }
+      const loginUser = {
+        email: emailref.current.value,
+        password: passwordref.current.value,
+      };
 
-
-      const result=await axios.post(`${BACKEND_URL}/api/auth/login`,loginUser);
-      if(result.status===200 && result.data ){
-        localStorage.setItem("chat-User",JSON.stringify(result.data));
+      const result = await axios.post(`${BACKEND_URL}/api/auth/login`, loginUser);
+      if (result.status === 200 && result.data) {
+        localStorage.setItem("chat-User", JSON.stringify(result.data));
         setAuthUser(result.data);
+        alert("Login successful!");
+      } else {
+        alert("Invalid login credentials.");
       }
-      else{
-        alert("wrong data");
-      }
-
     } catch (error) {
-     alert(error);
+      alert(error.response?.data?.message || "An error occurred during login.");
     }
-  }
-
+  };
 
   return (
-    <div>
-      <div className="bg-[url('https://img.freepik.com/free-vector/medical-healthcare-blue-background-with-cardiograph_1017-17391.jpg?size=626&ext=jpg')] pt-8 bg-cover h-screen">
-      
-      <div className="flex flex-col-reverse md:flex-row h-full w-full md:w-[900px] md:h-[400px] gap-16 items-start m-auto border-s-violet-950 bg-white pl-5">
-      <div className="flex flex-col w-1/2 h-1/2 gap-3 md:p-5">
-      <h1 className="font-bold text-xl md:text-2xl text-blue-900 ">Login to your account</h1>
-      <h3 className="font-bold text-sm md:text-xl text-blue-900">E-mail</h3>
-      <input ref={emailref} type="email" name="email" className="bg-slate-200 w-full" placeholder="Enter your email" required/>
-      <h3 className="font-bold text-xl text-blue-900">Password</h3>
-      <input ref={passwordref} type="text" className="bg-slate-200" name="password" placeholder="Enter your password" required/>
-      <p>I agree to the processing of personal data</p>
-      
-      <button type="submit" className="bg-blue-700 w-28 h-8 text-lg rounded-sm" onClick={handleLoginbackend}>LOGIN</button>
-      <p>New to this site? <Link to="/signup">Registration</Link></p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 via-slate-800 to-black-300 flex items-center justify-center">
+      <div className="bg-slate-200 bg-opacity-85 shadow-lg rounded-lg w-full max-w-md p-8 md:p-12">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-blue-700 text-center">Welcome Back!</h1>
+          <p className="text-center text-gray-600">Log in to access your account</p>
+        </div>
+        <div className="space-y-4">
+          <label className="block">
+            <span className="block text-sm font-medium text-blue-900">Email Address</span>
+            <input
+              ref={emailref}
+              type="email"
+              className="mt-1 block w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 outline-none"
+              placeholder="Enter your email"
+              required
+            />
+          </label>
+          <label className="block">
+            <span className="block text-sm font-medium text-blue-900">Password</span>
+            <input
+              ref={passwordref}
+              type="password"
+              className="mt-1 block w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 outline-none"
+              placeholder="Enter your password"
+              required
+            />
+          </label>
+        </div>
+        <div className="mt-4 flex items-center justify-between">
+          <p className="text-sm text-gray-600">
+            <input type="checkbox" className="mr-2" />
+            Remember Me
+          </p>
+          <Link to="#" className="text-sm text-blue-600 hover:underline">
+            Forgot Password?
+          </Link>
+        </div>
+        <div className="mt-6">
+          <button
+            onClick={handleLoginbackend}
+            className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transform transition duration-300 hover:scale-105"
+          >
+            Log In
+          </button>
+        </div>
+        <p className="text-sm text-center text-gray-600 mt-4">
+          New here?{" "}
+          <Link to="/signup" className="text-blue-600 font-medium hover:underline">
+            Create an account
+          </Link>
+        </p>
       </div>
-       <div className="w-1/2 pt-2 h-1/2">
-               <img className="w-96 h-96" src="https://t3.ftcdn.net/jpg/00/63/74/62/360_F_63746248_ikHL5mQRmKXeWumLZk7ABJ9PT80VXjW5.jpg" alt=""/>
-             </div>
-      </div>
-          </div>
-        
-         
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
