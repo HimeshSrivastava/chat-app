@@ -64,8 +64,11 @@ export const login =async(req,res)=>{
                 token,
             });
     }
-    else{
-        return res.status(400).json({error:"invalid credential"});
+    else if(!user){
+        return res.status(400).json({error:"invalid user"});
+    }
+    else if(!ispasswordcorrect){
+        return res.status(500).json({error:"invalid password"});
     }
 }
 export const logout = (req, res) => {

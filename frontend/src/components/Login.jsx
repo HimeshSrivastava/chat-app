@@ -6,8 +6,10 @@ import { BACKEND_URL } from "./constant/Api";
 
 const Login = () => {
   const { setAuthUser } = useAuthContex();
+  // const [validateEmail,setValidateEmail]=useState();
   const emailref = useRef(null);
   const passwordref = useRef(null);
+  const checkeref = useRef(null);
 
   const handleLoginbackend = async () => {
     try {
@@ -15,6 +17,23 @@ const Login = () => {
         email: emailref.current.value,
         password: passwordref.current.value,
       };
+      
+      if(emailref.current.value==="" && passwordref.current.value!==""){
+         alert("please fill the email field");
+         return
+      }
+      else if(passwordref.current.value==="" && emailref.current.value!==""){
+        alert("please fill the password field");
+        return
+     }
+     else if(passwordref.current.value==="" && emailref.current.value===""){
+      alert("please fill the password and email field");
+      return
+     }
+     else if(!checkeref.current.checked){
+      alert("please agree with the terms and condition");
+      return
+     }
 
       const result = await axios.post(`${BACKEND_URL}/api/auth/login`, loginUser);
       if (result.status === 200 && result.data) {
@@ -60,7 +79,7 @@ const Login = () => {
         </div>
         <div className="mt-4 flex items-center justify-between">
           <p className="text-sm text-gray-600">
-            <input type="checkbox" className="mr-2" />
+            <input type="checkbox" ref={checkeref} className="mr-2" />
             Remember Me
           </p>
           <Link to="#" className="text-sm text-blue-600 hover:underline">
