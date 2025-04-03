@@ -17,7 +17,6 @@ const MessageContainer = () => {
 
   useEffect(() => {
     if (!socket || !selectedConversation) return;
-
     socket.emit("joinRoom", selectedConversation._id);
 
     return () => {
@@ -27,7 +26,6 @@ const MessageContainer = () => {
 
   useEffect(() => {
     if (!socket) return;
-
     const handleReceiveMessage = (newMessage) => {
       setMessages((prev) => [...prev, newMessage]);
     };
@@ -107,6 +105,8 @@ const MessageContainer = () => {
     return () => setSelectedConversation(null);
   }, [setSelectedConversation]);
 
+  const decodedId=JSON.parse(atob(authUser?.token.split(".")[1]));
+
   return (
     <Box className="flex flex-col max-w-full h-screen p-4 bg-gray-100 space-y-4">
       {!selectedConversation ? (
@@ -118,10 +118,10 @@ const MessageContainer = () => {
               getMessage.map((msg) => (
                 <Box
                   key={msg._id}
-                  className={`self-${msg.senderId === authUser._id ? "end" : "start"} max-w-xs px-4 py-2`}
+                  className={`self-${msg.senderId === decodedId.userid ? "end" : "start"} max-w-xs px-4 py-2`}
                   sx={{
-                    backgroundColor: msg.senderId === authUser._id ? "#1976d2" : "#e0e0e0",
-                    color: msg.senderId === authUser._id ? "#fff" : "#000",
+                    backgroundColor: msg.senderId === decodedId.userid ? "#1976d2" : "#e0e0e0",
+                    color: msg.senderId === decodedId.userid ? "#fff" : "#000",
                     borderRadius: 2,
                     display: "flex",
                     justifyContent: "space-between",
@@ -131,7 +131,7 @@ const MessageContainer = () => {
                   <Typography>{msg?.message}</Typography>
                   <IconButton
                     onClick={() => deleteMessage(msg._id)}
-                    sx={{ color: msg.senderId === authUser._id ? "#ff5252" : "#d32f2f" }}
+                    sx={{ color: msg.senderId === decodedId.userid ? "#ff5252" : "#d32f2f" }}
                   >
                     <DeleteIcon />
                   </IconButton>

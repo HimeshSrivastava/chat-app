@@ -1,7 +1,7 @@
 import { useState, createContext, useContext } from "react";
 
 
-export const AuthContex=createContext();
+export const AuthContex=createContext(); // firstly here you have created the contex
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useAuthContex=()=>{
