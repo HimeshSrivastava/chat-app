@@ -116,9 +116,9 @@ const MessageContainer = () => {
           <Paper elevation={3} className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 rounded-lg shadow-lg max-h-screen sm:text-sm">
             {getMessage.length > 0 ? (
               getMessage.map((msg) => (
+                <div   key={msg._id} className={`flex ${msg.senderId === decodedId.userid ? "justify-end" : "justify-start"}`}>
                 <Box
-                  key={msg._id}
-                  className={`self-${msg.senderId === decodedId.userid ? "end" : "start"} max-w-xs px-4 py-2`}
+                  className={`self-${msg.senderId === decodedId.userid ? "end" : "start"} w-1/2 px-4 py-2`}
                   sx={{
                     backgroundColor: msg.senderId === decodedId.userid ? "#1976d2" : "#e0e0e0",
                     color: msg.senderId === decodedId.userid ? "#fff" : "#000",
@@ -136,6 +136,7 @@ const MessageContainer = () => {
                     <DeleteIcon />
                   </IconButton>
                 </Box>
+                </div>
               ))
             ) : (
               <Typography>No messages yet</Typography>
