@@ -1,7 +1,6 @@
 import axios from "axios"
 import { useAuthContex } from "./contex/AuthContex";
 import { BACKEND_URL } from "./constant/Api";
-// import { BACKEND_URL } from "./constant/Api";
 
 
 

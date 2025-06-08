@@ -12,8 +12,6 @@ export const useAuthContex=()=>{
 export const AuthContexProvider=({children})=>{
     const [authUser, setAuthUser] = useState(() => {
         const user = localStorage.getItem("chat-User");
-    
-        // console.log("Stored data in localStorage (before parsing):", user);
         return user ? JSON.parse(user) : null; 
       });
     return <AuthContex.Provider value={{authUser,setAuthUser}}>
